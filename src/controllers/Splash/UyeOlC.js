@@ -6,6 +6,7 @@ class UyeOlC {
             this,
             {
                 durum: observable,
+                isim: observable,
                 eposta: observable,
                 sifre: observable,
                 sifreTekrar: observable,
@@ -19,6 +20,7 @@ class UyeOlC {
 
     durum = false;
 
+    isim = '';
     eposta = '';
     sifre = '';
     sifreTekrar = '';

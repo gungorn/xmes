@@ -36,7 +36,7 @@ export const GirisYapS = StyleSheet.create({
         borderColor: '#207dff'
     },
     inputContainerStyle: {
-        width: W(75),
+        flex: 1,
         marginTop: H(2)
     },
     inputLabelStyle: {
@@ -61,6 +61,11 @@ export const GirisYapS = StyleSheet.create({
     },
     uyeOlButtonContainerStyle: {
         marginTop: H(3)
+    },
+
+    inputGroupContainer: {
+        width: W(75),
+        flexDirection: 'row'
     }
 
 });

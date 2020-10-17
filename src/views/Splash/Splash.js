@@ -23,8 +23,10 @@ export default observer(() => {
     return (
         <View style={S.container}>
             <StatusBar barStyle={'dark-content'} backgroundColor={'transparent'} translucent />
+
             <Image source={back1} width={W(100)} resizeMode={'cover'} style={S.back1} />
             <Image source={appIcon} width={(GirisYapC.durum || UyeOlC.durum) ? W(40) : W(65)} />
+
             <GirisYap />
             <UyeOl />
         </View>
