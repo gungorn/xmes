@@ -1,13 +1,16 @@
-import { observer } from 'mobx-react';
-import React from 'react';
-import { View, Text } from 'react-native';
+
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
-import Entypo from 'react-native-vector-icons/Entypo'
+import { observer } from 'mobx-react';
+
 import GirisYapC from '../../controllers/Splash/GirisYapC';
 
-import { GirisYapS as S, W, H } from '../../styles'
+import { GirisYapS as S } from '../../styles'
 
 export default observer(() => {
+    useEffect(() => { GirisYapC.startup(); }, []); //girişyap sayfası (bileşeni) için lifecycle fonksiyonu oluştur
+
     return (
         <View style={[S.contrainer, { display: GirisYapC.durum ? 'flex' : 'none' }]}>
 
@@ -42,7 +45,8 @@ export default observer(() => {
                 title={'Oturum Aç'}
                 titleStyle={S.loginButtonTitleStyle}
                 containerStyle={S.loginButtonContainerStyle}
-                onPress={GirisYapC.girisYap}
+                onPress={GirisYapC.girisYap} //butona dokununca controller girisYap fonkasiyonunu çalıştır
+                loading={GirisYapC.girisYapiliyor}
             />
 
 
