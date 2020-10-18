@@ -1,11 +1,10 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
-import Entypo from 'react-native-vector-icons/Entypo'
 import UyeOlC from '../../controllers/Splash/UyeOlC';
 
-import { UyeOlS as S, W, H } from '../../styles'
+import { UyeOlS as S } from '../../styles'
 
 export default observer(() => {
     return (
@@ -65,7 +64,8 @@ export default observer(() => {
                 titleStyle={S.loginButtonTitleStyle}
                 containerStyle={S.loginButtonContainerStyle}
                 buttonStyle={S.loginButtonStyle}
-                onPress={UyeOlC.girisYap}
+                onPress={UyeOlC.uyeOl}
+                loading={UyeOlC.uyeOlunuyor}
             />
         </View>
     );
