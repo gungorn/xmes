@@ -1,24 +1,31 @@
+import React, { useEffect } from 'react';
+import { View, StatusBar, LayoutAnimation } from 'react-native';
 import { observer } from 'mobx-react';
-import React, { useEffect, useState } from 'react';
-import { View, Text, StatusBar, LayoutAnimation } from 'react-native';
 import Image from 'react-native-scalable-image';
 
-import { SplashS as S, W, H } from '../../styles';
+import { SplashS as S, W } from '../../styles'; //daha pratik şekilde kullanmak için bileşene ait stili S ismi ile import ediyorum
 
 import appIcon from '../../../assets/appicon.png';
 import back1 from '../../../assets/back1.png';
 
+import Anasayfa from '../Anasayfa';
 import GirisYap from './GirisYap';
 import UyeOl from './UyeOl';
+
 import GirisYapC from '../../controllers/Splash/GirisYapC';
 import UyeOlC from '../../controllers/Splash/UyeOlC';
+
+import UyelikM from '../../models/UyelikM';
+
 
 
 
 export default observer(() => {
-    useEffect(() => setTimeout(() => GirisYapC.set('durum', true), 3000), []);
-    useEffect(() => LayoutAnimation.easeInEaseOut());
+    useEffect(() => LayoutAnimation.easeInEaseOut()); //layout animation için
 
+    //oturum açılmışsa, uyelik model store'da uid değişkeni kullanıcının id'sini tutar
+    //id varsa oturum açılmış demektir, bu durumda anaasyfayı return et
+    if (UyelikM.uid) return <Anasayfa />;
 
     return (
         <View style={S.container}>
