@@ -1,5 +1,6 @@
 import { observable, action, makeObservable } from 'mobx';
 import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 
 
 class UyelikM {
@@ -9,6 +10,11 @@ class UyelikM {
             {
                 uyeOl: action,
                 girisYap: action,
+
+                uid: observable,
+
+                uyeBilgiKaydet: action,
+
                 set: action
             }
         );
@@ -16,18 +22,53 @@ class UyelikM {
 
     uid = null; //giriş yapan kullanıcı için user id (uid yoksa oturum açılmamış demektir)
 
-    uyeOl = () => {
 
-    }
+    uyeOl = async (mail, password) => {
+        //bir promise fonksiyon iki farklı şekilde kullanılabilir: then-catch mantığıyla ya da await ile
+        //then-catch de, geriye bir şey return etmek mümkün olmadığı için await ile kullandık
+        //hataları yakalabilmek için de try catch kullandık
 
-    girisYap = (eposta, sifre) => {
-        auth().signInWithEmailAndPassword(eposta, sifre)
+        /*
+        auth().createUserWithEmailAndPassword(mail, password)
             .then(d => {
+                console.log(d);
                 this.uid = d.user.uid;
             })
-            .catch(e => {
+            .catch(e => console.log(e));
+        */
 
-            });
+        try {
+            const d = await auth().createUserWithEmailAndPassword(mail, password); //await işlem bitene kadar bekletir
+            this.uid = d.user.uid;
+            return true;
+        }
+        catch (e) { //try içerisinde herhangi bir hata olduğunda doğrudan catch e düşer
+            console.log(e);
+            return false;
+        }
+    }
+    uyeBilgiKaydet = async (uid, data) => {
+        try {
+            await database().ref(`/KULLANICILAR/${uid}/`).set(data);
+            return true;
+        }
+        catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
+
+    girisYap = async (eposta, sifre) => {
+        try {
+            const sonuc = await auth().signInWithEmailAndPassword(eposta, sifre);
+            this.uid = sonuc.user.uid;
+            console.log('uid', this.uid);
+            return true;
+        }
+        catch (e) {
+            console.log(e);
+            return false;
+        }
     }
 
     set = (k, v) => (this[k] = v);
