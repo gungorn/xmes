@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import Helper from './Helper';
 
 const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
@@ -119,5 +120,27 @@ export const AnasayfaS = StyleSheet.create({
         flex: 1,
         color: '#fff',
         fontSize: 16
+    },
+
+
+    addMsg: {
+        position: 'absolute',
+        bottom: W(3),
+        right: W(3),
+        width: W(16),
+        height: W(16),
+        borderRadius: W(8),
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#737ff0'
+    },
+
+
+    mailModalInput: {
+        height: H(8),
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18,
+        paddingHorizontal: W(5)
     }
 });

@@ -24,9 +24,9 @@ class UyeOlC {
 
     durum = false;
 
-    isim = 'nurettin';
-    eposta = 'asd@xyz.com';
-    sifre = '00000000';
+    isim = '';
+    eposta = '';
+    sifre = '';
     sifreTekrar = '';
 
     /*

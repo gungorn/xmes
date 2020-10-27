@@ -21,6 +21,8 @@ class GirisYapC {
 
 
     startup = async () => { //girişyap için componentDidMount
+        Helper.klavyeTakip(); //klavye için listener ları aktif et
+
         const x = await Helper.oturumBilgiGetir(); //{ eposta: '', sifre: '' } şeklinde dönüş yapıyor, eposta ve sifre null olabilir!!
 
         if (x && x.eposta && x.sifre) { //geri dönüş değerini ve içinde eposta ve sifreyi knotrol et

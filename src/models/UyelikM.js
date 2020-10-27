@@ -15,6 +15,8 @@ class UyelikM {
 
                 uyeBilgiKaydet: action,
 
+                uyeBul: action,
+
                 set: action
             }
         );
@@ -70,6 +72,21 @@ class UyelikM {
             return false;
         }
     }
+
+
+    uyeBul = (eposta) => new Promise(resolve => {
+        database()
+            .ref('/KULLANICILAR')
+            .orderByChild('eposta')
+            .equalTo(eposta)
+            .once('value')
+            .then(d => {
+                resolve({ sonuc: true, veri: d.val() });
+            })
+            .catch(e => {
+                resolve({ sonuc: false, hata: e });
+            });
+    });
 
     set = (k, v) => (this[k] = v);
 }

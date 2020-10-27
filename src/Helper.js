@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { action, observable, makeObservable } from 'mobx';
+import { Keyboard } from 'react-native';
 
 
 class Helper {
@@ -7,6 +8,11 @@ class Helper {
         makeObservable(
             this,
             {
+                klavye: observable,
+                klavyeTakip: action,
+                klavyeAcildi: action,
+                klavyeKapandi: action,
+
                 oturumBilgiKaydet: action,
                 oturumBilgiGetir: action,
 
@@ -16,6 +22,15 @@ class Helper {
         );
     }
 
+
+
+    klavye = { d: false, h: 0 };
+    klavyeTakip = () => {
+        Keyboard.addListener('keyboardDidShow', this.klavyeAcildi);
+        Keyboard.addListener('keyboardDidHide', this.klavyeKapandi);
+    }
+    klavyeAcildi = e => (this.klavye = { d: true, h: e.endCoordinates.height });
+    klavyeKapandi = () => (this.klavye = { d: false, h: 0 });
 
 
 
