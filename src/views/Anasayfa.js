@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StatusBar, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Image, StatusBar, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import SImage from 'react-native-scalable-image';
 import { getStatusBarHeight as sbh } from 'react-native-status-bar-height';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -7,24 +7,37 @@ import FA from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
+import Moment from 'moment';
 
 import C from '../controllers/AnasayfaC';
 
 import { AnasayfaS as S, W } from '../styles';
 import { observer } from 'mobx-react';
 import Helper from '../Helper';
+import MesajlasmaM from '../models/MesajlasmaM';
 
 
 const mesajlasmalar = () => {
     return (
         <View>
-            {mesajlasma()}
-            {mesajlasma()}
-            {mesajlasma()}
+            <FlatList
+                data={MesajlasmaM.mesajlasmalar}
+                extraData={MesajlasmaM.mesajlasmalar}
+                renderItem={(d, i) => mesajlasma(d.item, i)}
+            />
         </View>
     );
 }
-const mesajlasma = () => {
+const mesajlasma = (d, i) => {
+    const { sonMesaj, sonMesajTarihi, kullanici } = d;
+    console.log(kullanici);
+
+    if (!kullanici) return null;
+
+    const { isim, eposta } = kullanici;
+
+    const tarih = Moment(sonMesajTarihi).format('D MMMM, HH:mm'); //D, DD, M, MM, MMM, MMMM, YY, YYYY, H, HH, m, mm, s, ss
+
     return (
         <View style={{ borderRadius: 10, padding: W(3), flexDirection: 'row', alignItems: 'center', margin: W(5) }}>
             <SImage
@@ -34,12 +47,12 @@ const mesajlasma = () => {
             />
 
             <View style={{ marginLeft: W(5), flex: 1 }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Nurettin Güngör</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{isim}</Text>
                 <View style={{ height: 10 }} />
-                <Text style={{ color: 'gray', fontWeight: 'bold' }}>lorem ipsum dolar sit amet</Text>
+                <Text style={{ color: 'gray', fontWeight: 'bold' }}>{sonMesaj}</Text>
             </View>
 
-            <Text style={{ position: 'absolute', top: 5, right: 5 }}>08:15</Text>
+            <Text style={{ position: 'absolute', top: 5, right: 5 }}>{tarih}</Text>
         </View>
     );
 }
@@ -57,13 +70,32 @@ const mailModal = () => {
             }}
             onBackdropPress={() => C.set('mailmodal', false)}
         >
-            <View style={{ backgroundColor: '#737ff0', borderRadius: Helper.klavye.d ? 0 : 10 }}>
+            <View style={{
+                backgroundColor: '#737ff0',
+                borderRadius: Helper.klavye.d ? 0 : 10,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: W(2)
+            }}>
+                <TouchableOpacity onPress={C.modalKapat}>
+                    <Entypo name={'chevron-down'} color={'#fff'} size={32} />
+                </TouchableOpacity>
+
                 <TextInput
                     style={S.mailModalInput}
                     value={C.mailModalInputValue}
                     onChangeText={d => C.set('mailModalInputValue', d)}
                     onSubmitEditing={C.addMsg}
                 />
+
+
+                {
+                    C.mailModalInputValue.includes('@') && (C.mailModalInputValue.length > 10) &&
+                    <TouchableOpacity onPress={C.addMsg}>
+                        <Entypo name={'check'} color={'#fff'} size={32} />
+                    </TouchableOpacity>
+                }
             </View>
         </Modal>
     );

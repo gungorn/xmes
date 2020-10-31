@@ -141,6 +141,7 @@ export const AnasayfaS = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 18,
-        paddingHorizontal: W(5)
+        paddingHorizontal: W(5),
+        flex: 1
     }
 });

@@ -17,6 +17,8 @@ class UyelikM {
 
                 uyeBul: action,
 
+                getUye: action,
+
                 set: action
             }
         );
@@ -86,6 +88,14 @@ class UyelikM {
             .catch(e => {
                 resolve({ sonuc: false, hata: e });
             });
+    });
+
+    getUye = uid => new Promise(resolve => {
+        database()
+            .ref(`/KULLANICILAR/${uid}`)
+            .once('value')
+            .then(d => resolve({ sonuc: true, veri: d.val() }))
+            .catch(e => resolve({ sonuc: false, hata: e }));
     });
 
     set = (k, v) => (this[k] = v);

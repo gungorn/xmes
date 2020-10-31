@@ -2,6 +2,7 @@ import { observable, action, makeObservable } from 'mobx';
 import UyeOlC from './UyeOlC';
 import UyelikM from '../../models/UyelikM';
 import Helper from '../../Helper';
+import MesajlasmaM from '../../models/MesajlasmaM';
 
 class GirisYapC {
     constructor() { //class için yapılandırıcı fonksiyon (constructor)
@@ -50,6 +51,8 @@ class GirisYapC {
 
         if (sonuc) { //oturum açıldı
             await Helper.oturumBilgiKaydet(this.eposta, this.sifre);
+
+            MesajlasmaM.getMesajlasmalar();
         }
         else { //oturum açılamadı
         }
