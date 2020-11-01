@@ -8,6 +8,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MCI from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import Moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
 
 import C from '../controllers/AnasayfaC';
 
@@ -15,6 +16,12 @@ import { AnasayfaS as S, W } from '../styles';
 import { observer } from 'mobx-react';
 import Helper from '../Helper';
 import MesajlasmaM from '../models/MesajlasmaM';
+import UyelikM from '../models/UyelikM';
+
+
+const varsayilanAvatar = 'https://g7.pngresmi.com/preview/178/595/684/user-profile-computer-icons-login-user-avatars.jpg';
+
+let useNav;
 
 
 const mesajlasmalar = () => {
@@ -34,14 +41,17 @@ const mesajlasma = (d, i) => {
 
     if (!kullanici) return null;
 
-    const { isim, eposta } = kullanici;
+    const { isim, eposta, avatar } = kullanici;
 
     const tarih = Moment(sonMesajTarihi).format('D MMMM, HH:mm'); //D, DD, M, MM, MMM, MMMM, YY, YYYY, H, HH, m, mm, s, ss
 
     return (
-        <View style={{ borderRadius: 10, padding: W(3), flexDirection: 'row', alignItems: 'center', margin: W(5) }}>
+        <TouchableOpacity
+            style={{ borderRadius: 10, padding: W(3), flexDirection: 'row', alignItems: 'center', margin: W(5) }}
+            onPress={() => useNav.navigate('Chat')}
+        >
             <SImage
-                source={{ uri: 'https://www.w3schools.com/howto/img_avatar.png' }}
+                source={{ uri: avatar || varsayilanAvatar }}
                 width={W(20)}
                 style={{ borderRadius: W(10) }}
             />
@@ -53,7 +63,7 @@ const mesajlasma = (d, i) => {
             </View>
 
             <Text style={{ position: 'absolute', top: 5, right: 5 }}>{tarih}</Text>
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -102,6 +112,10 @@ const mailModal = () => {
 }
 
 const Anasayfa = () => {
+    const uye = UyelikM.uye;
+
+    useNav = useNavigation();
+
     return (
         <View style={S.container}>
             <StatusBar barStyle={'light-content'} translucent backgroundColor={'transparent'} />
@@ -112,13 +126,15 @@ const Anasayfa = () => {
                 <View style={{ height: sbh() }} />
 
                 <View style={S.topContainer}>
-                    <SImage
-                        source={{ uri: 'https://www.w3schools.com/howto/img_avatar.png' }}
-                        style={S.avatar}
-                        width={W(13)}
-                    />
+                    <TouchableOpacity onPress={C.profilFotoDegistir}>
+                        <SImage
+                            source={{ uri: ((uye && uye.avatar) ? uye.avatar : varsayilanAvatar) }}
+                            style={S.avatar}
+                            width={W(13)}
+                        />
+                    </TouchableOpacity>
 
-                    <Text style={S.name}>Nurettin Güngör</Text>
+                    <Text style={S.name}>{uye && uye.isim}</Text>
 
                     <TouchableOpacity>
                         <Entypo name={'game-controller'} color={'#fff'} size={24} />

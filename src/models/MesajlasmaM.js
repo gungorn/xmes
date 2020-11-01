@@ -21,7 +21,7 @@ class MesajlasmaM {
     }
 
 
-    mesajlasmalar = [];
+    mesajlasmalar = []; //aansayfada görünecek data
 
 
     addMsg = (mesajlasmaid, veri) => new Promise(resolve => {

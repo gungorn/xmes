@@ -12,8 +12,10 @@ class UyelikM {
                 girisYap: action,
 
                 uid: observable,
+                uye: observable,
 
                 uyeBilgiKaydet: action,
+                uyeAvatarDegistir: action,
 
                 uyeBul: action,
 
@@ -24,8 +26,8 @@ class UyelikM {
         );
     }
 
-    uid = null; //giriş yapan kullanıcı için user id (uid yoksa oturum açılmamış demektir)
-
+    uid = null; //giriş yapan kullanıcı için user id (uid yoksa oturum açılmamış demektir),
+    uye = null; //giriş yapan kullanıcının bilgileri
 
     uyeOl = async (mail, password) => {
         //bir promise fonksiyon iki farklı şekilde kullanılabilir: then-catch mantığıyla ya da await ile
@@ -61,12 +63,29 @@ class UyelikM {
             return false;
         }
     }
+    uyeAvatarDegistir = async (uid, data) => {
+        try {
+            await database().ref(`/KULLANICILAR/${uid}/avatar`).set(data);
+            return true;
+        }
+        catch (e) {
+            console.log(e);
+            return false;
+        }
+    }
 
     girisYap = async (eposta, sifre) => {
         try {
             const sonuc = await auth().signInWithEmailAndPassword(eposta, sifre);
             this.uid = sonuc.user.uid;
             console.log('uid', this.uid);
+
+            const uye = await this.getUye(this.uid);
+            if (uye.sonuc) this.uye = uye.veri;
+            else { } //hata olması durumu
+
+            console.log('UYE :', this.uye);
+
             return true;
         }
         catch (e) {

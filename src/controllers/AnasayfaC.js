@@ -1,6 +1,7 @@
 import { makeObservable, action, observable } from 'mobx';
 import { Alert } from 'react-native';
 import shortid from 'shortid';
+import Helper from '../Helper';
 import MesajlasmaM from '../models/MesajlasmaM';
 
 import UyelikM from '../models/UyelikM';
@@ -16,6 +17,9 @@ class AnasayfaC {
                 modalKapat: action,
 
                 addMsg: action,
+
+
+                profilFotoDegistir: action,
 
                 set: action
             }
@@ -69,6 +73,28 @@ class AnasayfaC {
 
         this.mailModal = false;
         this.mailModalInputValue = '';
+    }
+
+
+    profilFotoDegistir = async () => {
+        const foto = await Helper.galeridenSec();
+
+        if (!foto) {
+            return;
+        }
+
+        const x = foto.path.split('/');
+        const isim = x[x.length - 1];
+
+        const upload = await Helper.dosyaUpload(`kullaniciProfil/${shortid()} ${isim}`, foto.path);
+
+        if (upload) {
+            UyelikM.uyeAvatarDegistir(UyelikM.uid, upload);
+            UyelikM.set('uye', { ...UyelikM.uye, avatar: upload });
+        }
+        else {
+
+        }
     }
 
 
