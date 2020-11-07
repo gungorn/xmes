@@ -48,7 +48,7 @@ const mesajlasma = (d, i) => {
     return (
         <TouchableOpacity
             style={{ borderRadius: 10, padding: W(3), flexDirection: 'row', alignItems: 'center', margin: W(5) }}
-            onPress={() => useNav.navigate('Chat')}
+            onPress={() => C.goChat(useNav, d)}
         >
             <SImage
                 source={{ uri: avatar || varsayilanAvatar }}

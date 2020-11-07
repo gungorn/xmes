@@ -21,6 +21,8 @@ class AnasayfaC {
 
                 profilFotoDegistir: action,
 
+                goChat: action,
+
                 set: action
             }
         );
@@ -95,6 +97,12 @@ class AnasayfaC {
         else {
 
         }
+    }
+
+
+    goChat = (useNav, d) => {
+        MesajlasmaM.set('mesajlasma', d);
+        useNav.navigate('Chat');
     }
 
 

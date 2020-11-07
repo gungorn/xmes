@@ -117,6 +117,10 @@ class UyelikM {
             .catch(e => resolve({ sonuc: false, hata: e }));
     });
 
+    sifreSifirla = () => {
+        auth().sendPasswordResetEmail('');
+    }
+
     set = (k, v) => (this[k] = v);
 }
 

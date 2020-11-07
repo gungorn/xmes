@@ -1,12 +1,13 @@
 
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { View, TextInputProps } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { observer } from 'mobx-react';
 
 import GirisYapC from '../../controllers/Splash/GirisYapC';
 
-import { GirisYapS as S } from '../../styles'
+import { GirisYapS as S } from '../../styles';
+
 
 export default observer(() => {
     useEffect(() => { GirisYapC.startup(); }, []); //girişyap sayfası (bileşeni) için lifecycle fonksiyonu oluştur
@@ -21,6 +22,7 @@ export default observer(() => {
                     containerStyle={S.inputContainerStyle}
                     inputStyle={S.inputStyle}
                     placeholderTextColor={'#207dff'}
+                    keyboardType={'email-address'}
                     maxLength={64}
                     value={GirisYapC.eposta}
                     onChangeText={d => GirisYapC.set('eposta', d)}

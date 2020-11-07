@@ -9,6 +9,7 @@ class MesajlasmaM {
         makeObservable(
             this,
             {
+                mesajlasma: observable,
                 mesajlasmalar: observable,
 
                 addMsg: action,
@@ -21,6 +22,7 @@ class MesajlasmaM {
     }
 
 
+    mesajlasma = null; //kullanıcının anasayfada dokunduğu mesajlaşma bilgisi
     mesajlasmalar = []; //aansayfada görünecek data
 
 

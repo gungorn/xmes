@@ -29,6 +29,7 @@ export default observer(() => (
                 inputStyle={S.inputStyle}
                 placeholderTextColor={'#207dff'}
                 maxLength={64}
+                keyboardType={'email-address'}
                 value={UyeOlC.eposta}
                 onChangeText={d => UyeOlC.set('eposta', d)}
             />
@@ -40,7 +41,7 @@ export default observer(() => (
                 containerStyle={S.inputContainerStyle}
                 inputStyle={S.inputStyle}
                 placeholderTextColor={'#207dff'}
-                secureTextEntry
+                secureTextEntry //yazıyı noktalı gösterir
                 maxLength={16}
                 value={UyeOlC.sifre}
                 onChangeText={d => UyeOlC.set('sifre', d)}
