@@ -11,6 +11,7 @@ class MesajlasmaM {
             {
                 mesajlasma: observable,
                 mesajlasmalar: observable,
+                mesajlar: observable,
 
                 addMsg: action,
                 getMesajlasmalarKisi1: action,
@@ -25,6 +26,7 @@ class MesajlasmaM {
     mesajlasma = null; //kullanıcının anasayfada dokunduğu mesajlaşma bilgisi
     mesajlasmalar = []; //aansayfada görünecek data
 
+    mesajlar = []; //o anki mesajlaşmadaki mesajlar
 
     addMsg = (mesajlasmaid, veri) => new Promise(resolve => {
         database()
@@ -100,6 +102,48 @@ class MesajlasmaM {
                 }
             );
     };
+
+    getMesajlarREF = null;
+    getMesajlar = () => {
+        const mesajlasmaid = this.mesajlasma.mesajlasmaid;
+
+        this.getMesajlarREF = database()
+            .ref(`/MESAJLASMALARDATA/${mesajlasmaid}`)
+            .on(
+                'value',
+                d => {
+                    const data = d.val();
+
+                    const keys = Object.keys(data);
+                    const mesajlar = [];
+
+                    keys.forEach(x => mesajlar.push({
+                        ...data[x],
+                        LorR: (data[x].gonderen === UyelikM.uid) ? 'R' : 'L',
+                    }));
+
+                    mesajlar.sort((a, b) => a.tarih < b.tarih);
+
+                    this.mesajlar = mesajlar;
+                }
+            );
+    }
+    offMesajlar = () => {
+        const mesajlasmaid = this.mesajlasma.mesajlasmaid;
+
+        database().ref(`/MESAJLASMADATA/${mesajlasmaid}`).off('value', this.getMesajlarREF);
+    }
+
+
+    gonderMesaj = (mesajid, data) => new Promise(resolve => {
+        const mesajlasmaid = this.mesajlasma.mesajlasmaid;
+
+        database()
+            .ref(`/MESAJLASMALARDATA/${mesajlasmaid}/${mesajid}`)
+            .set(data)
+            .then(() => resolve({ sonuc: true }))
+            .catch(e => resolve({ sonuc: false, hata: e }));
+    });
 
 
     set = (k, v) => (this[k] = v);

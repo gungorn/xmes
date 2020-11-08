@@ -39,7 +39,6 @@ class AnasayfaC {
 
     addMsg = async () => {
         const x = await UyelikM.uyeBul(this.mailModalInputValue);
-        console.log('X', x);
 
 
         if (x.sonuc && x.veri) {

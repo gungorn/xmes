@@ -37,7 +37,6 @@ const mesajlasmalar = () => {
 }
 const mesajlasma = (d, i) => {
     const { sonMesaj, sonMesajTarihi, kullanici } = d;
-    console.log(kullanici);
 
     if (!kullanici) return null;
 
@@ -47,6 +46,7 @@ const mesajlasma = (d, i) => {
 
     return (
         <TouchableOpacity
+            key={i}
             style={{ borderRadius: 10, padding: W(3), flexDirection: 'row', alignItems: 'center', margin: W(5) }}
             onPress={() => C.goChat(useNav, d)}
         >

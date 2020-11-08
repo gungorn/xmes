@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
-import React from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import SImage from 'react-native-scalable-image';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,6 +11,7 @@ import C from '../../controllers/Chat/ChatC';
 import MesajlasmaM from '../../models/MesajlasmaM';
 
 import { H, W } from '../../styles';
+import UyelikM from '../../models/UyelikM';
 
 let useNav;
 
@@ -55,7 +56,10 @@ const top = () => {
     );
 }
 
-const message = (LorR = 'R') => {
+const message = d => {
+    const { avatar } = MesajlasmaM.mesajlasma.kullanici;
+    const { LorR, gonderen, mesaj, tarih } = d;
+
     const rightStyle = {
         marginRight: W(1),
         borderTopRightRadius: 2,
@@ -79,7 +83,7 @@ const message = (LorR = 'R') => {
             {
                 LorR === 'L' &&
                 <SImage
-                    source={{ uri: 'https://pickaface.net/gallery/avatar/unr_sample_161118_2054_ynlrg.png' }}
+                    source={{ uri: avatar }}
                     width={W(8)}
                     style={{ marginTop: W(2), marginHorizontal: W(2), backgroundColor: '#00000044', borderRadius: W(4) }}
                 />
@@ -89,15 +93,14 @@ const message = (LorR = 'R') => {
                 <Text
                     style={{ color: '#eee', fontWeight: 'bold' }}
                 >
-                    Velit irure id nostrud fugiat ea anim eiusmod irure nostrud non commodo
+                    {mesaj}
                 </Text>
-
             </View>
 
             {
                 LorR === 'R' &&
                 <SImage
-                    source={{ uri: 'https://pickaface.net/gallery/avatar/unr_sample_161118_2054_ynlrg.png' }}
+                    source={{ uri: UyelikM.uye.avatar }}
                     width={W(8)}
                     style={{ marginTop: W(2), marginHorizontal: W(2), backgroundColor: '#00000044', borderRadius: W(4) }}
                 />
@@ -114,10 +117,16 @@ const chatBar = () => {
             flexDirection: 'row', alignItems: 'center',
             padding: W(3)
         }}>
-            <TextInput style={{ flex: 1, marginRight: 10 }} />
+            <TextInput
+                style={{ flex: 1, marginRight: 10, maxHeight: H(20) }}
+                multiline
+                value={C.mesaj}
+                onChangeText={d => C.set('mesaj', d)}
+            />
 
             <TouchableOpacity
-                style={{ transform: [{ rotate: '-45deg' }] }}
+                style={{ transform: [{ rotate: '-45deg' }], alignSelf: 'flex-end' }}
+                onPress={C.gonderMesaj}
             >
                 <Ionicons name={'send'} color={'#747FEF'} size={W(9)} />
             </TouchableOpacity>
@@ -126,27 +135,46 @@ const chatBar = () => {
 }
 
 export default observer(() => {
-    console.log(MesajlasmaM.mesajlasma);
-
     useNav = useNavigation();
+
+    useEffect(() => { //componentdidmount
+        MesajlasmaM.getMesajlar();
+
+        return () => {  //componentwillunmount
+            MesajlasmaM.offMesajlar();
+        }
+    }, []);
+
 
     if (!MesajlasmaM.mesajlasma) return <View />;
 
+    const resim = <SImage source={require('../../../assets/b3.png')} width={W(100)} resizeMode={'contain'} />
+
     return (
         <View style={{ flex: 1, backgroundColor: '#e4deff' }}>
-            <SImage source={require('../../../assets/b3.png')} width={W(100)} resizeMode={'contain'} />
+            {resim}
 
             {top()}
 
-            <View style={{ flex: 1 }}>
-                {message('R')}
-                {message('R')}
-                {message('L')}
-                {message('R')}
-                {message('L')}
+            <View
+                style={{
+                    zIndex: -99,
+                    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                }}>
+
+                <View style={{ flex: 1, paddingBottom: 5 }}>
+                    <FlatList
+                        data={MesajlasmaM.mesajlar}
+                        extraData={MesajlasmaM.mesajlar}
+                        renderItem={d => message(d.item)}
+                        ListFooterComponent={() => <View style={{ opacity: 0 }}>{resim}</View>}
+                        inverted
+                    />
+                </View>
+
+                {chatBar()}
             </View>
 
-            {chatBar()}
         </View>
     );
 });
