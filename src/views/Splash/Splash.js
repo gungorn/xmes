@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StatusBar, LayoutAnimation } from 'react-native';
+import { View, StatusBar, LayoutAnimation, SafeAreaView } from 'react-native';
 import { observer } from 'mobx-react';
 import Image from 'react-native-scalable-image';
 
@@ -17,6 +17,7 @@ import UyeOlC from '../../controllers/Splash/UyeOlC';
 import UyelikM from '../../models/UyelikM';
 
 import Nav from '../Nav';
+import Helper from '../../Helper';
 
 
 
@@ -34,10 +35,13 @@ export default observer(() => {
             <StatusBar barStyle={'dark-content'} backgroundColor={'transparent'} translucent />
 
             <Image source={back1} width={W(100)} resizeMode={'cover'} style={S.back1} />
-            <Image source={appIcon} width={(GirisYapC.durum || UyeOlC.durum) ? W(40) : W(65)} />
+
+            <Image source={appIcon} width={(GirisYapC.durum || UyeOlC.durum) ? (Helper.klavye.d ? W(20) : W(40)) : W(65)} />
 
             <GirisYap />
             <UyeOl />
+
+            <View style={{ height: Helper.klavye.h, backgroundColor: 'red' }} />
         </View>
     );
 });

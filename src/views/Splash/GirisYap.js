@@ -6,14 +6,15 @@ import { observer } from 'mobx-react';
 
 import GirisYapC from '../../controllers/Splash/GirisYapC';
 
-import { GirisYapS as S } from '../../styles';
+import { GirisYapS as S, H } from '../../styles';
+import Helper from '../../Helper';
 
 
 export default observer(() => {
     useEffect(() => { GirisYapC.startup(); }, []); //girişyap sayfası (bileşeni) için lifecycle fonksiyonu oluştur
 
     return (
-        <View style={[S.contrainer, { display: GirisYapC.durum ? 'flex' : 'none' }]}>
+        <View style={[S.contrainer, { display: GirisYapC.durum ? 'flex' : 'none', marginTop: Helper.klavye.d ? H(3) : H(10) }]}>
 
 
             <View style={S.inputGroupContainer}>

@@ -3,11 +3,12 @@ import React from 'react';
 import { View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import UyeOlC from '../../controllers/Splash/UyeOlC';
+import Helper from '../../Helper';
 
-import { UyeOlS as S } from '../../styles'
+import { H, UyeOlS as S } from '../../styles'
 
 export default observer(() => (
-    <View style={[S.contrainer, { display: UyeOlC.durum ? 'flex' : 'none' }]}>
+    <View style={[S.contrainer, { display: UyeOlC.durum ? 'flex' : 'none', marginTop: Helper.klavye.d ? H(1) : H(10) }]}>
 
         <View style={S.inputGroupContainer}>
             <Input

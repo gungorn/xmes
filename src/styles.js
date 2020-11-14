@@ -24,7 +24,6 @@ export const SplashS = StyleSheet.create({
 export const GirisYapS = StyleSheet.create({
     contrainer: {
         width: w,
-        marginTop: H(10),
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#00000000'
